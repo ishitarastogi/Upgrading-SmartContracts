@@ -53,3 +53,46 @@ Seprating logic from storage
 
 1. A storage smart contract that purely storing the valuesand doesn't have a lot of logic.
 Then we have  logic smart contract
+
+# The First Proxy Contract
+
+The first proxy that was ever proposed  came from Nick Johnson(not sure). He's founder and lead dev at the ENS (Ethereum Name Service).
+
+
+1. Dispatcher -proxy smart contract
+2. Example- Target address
+
+```shell
+    fallback() external {
+        bytes4 sig;
+        assembly { sig := calldataload(0) }
+        uint len = _sizes[sig];
+        address target = _dest;
+
+        assembly {
+            // return _dest.delegatecall(msg.data)
+            calldatacopy(0x0, 0x0, calldatasize())
+            let result := delegatecall(sub(gas(), 10000), target, 0x0, calldatasize(), 0, len)
+            return(0, len) //we throw away any return data
+        }
+```
+
+Note: we are not running the code of target contract on the contract that calls the target which is Dispatcher.
+
+Steps: 
+1. Deploy Example- Target address or logic contract
+2. Deploy the Dispatcher (constructor args should be dispatcher contract)
+3. use the Example on the Dispatchers address(How to do this?)
+* Below deploy button there is AtAddress, provide dispatcher address and deploy exmaple contract with dispatcher address
+
+# How to use it in upgradablity?
+
+1. upgrade smart contract(For instance:return _value*2)
+2. Again Deploy the Example with Dispatcher address
+3. Replace new example address in dispatcherusing the replace function
+4. Now our smart contract is upgraded on the same address(it means it return value multiplied by 2)
+
+# EIP-897: ERC Delegate Proxy <>
+
+created in 2018
+We have proxy storage that stores the logic and then we have an actual storage smart contract that also inherits feom proxy storage
