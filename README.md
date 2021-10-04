@@ -88,7 +88,7 @@ Steps:
 # How to use it in upgradablity?
 
 1. upgrade smart contract(For instance:return _value*2)
-2. Again Deploy the Example with Dispatcher address
+2. Again Deploy the Example contract
 3. Replace new example address in dispatcherusing the replace function
 4. Now our smart contract is upgraded on the same address(it means it return value multiplied by 2)
 
