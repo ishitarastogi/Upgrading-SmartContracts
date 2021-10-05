@@ -27,7 +27,7 @@ Writing the data to the new contract
 
 1. can update the state of the contract
 2. keep an contract address 
-3. Allow us to update any type of logicin our smart contract
+3. Allow us to update any type of logic in our smart contract
 
 # Proxy Terminolgy:
 
@@ -92,7 +92,26 @@ Steps:
 3. Replace new example address in dispatcherusing the replace function
 4. Now our smart contract is upgraded on the same address(it means it return value multiplied by 2)
 
-# EIP-897: ERC Delegate Proxy <>
+
+# Storage collision
+
+# Steps:
+
+1. Deploy the LostStorage Contract
+2. Deploy the Proxy, setting the LostStorage contract address as the constructor argument
+3. Tell Remix that the LostStorage is running on the Proxy address
+4. Call myAddress(). It surprisingly returns a non-zero address even though we haven't set any address.
+
+
+![alt text](./images/StorageCollision.png)
+
+# Q. Why does this happen?
+In lost storage contract at slot zero myAddress is stored and at slot 1 some uit value is stored.
+In proxy contract at slot 0 otherContractAddress is stored whose value is set at time of deployment. As we know LostStorage is running on the Proxy address so now the slot zero value will be the proxy contract otherContractAddress.
+
+
+
+# EIP-897: ERC Delegate Proxy 
 
 created in 2018
 We have proxy storage that stores the logic and then we have an actual storage smart contract that also inherits feom proxy storage
