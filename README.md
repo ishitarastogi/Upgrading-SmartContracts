@@ -77,7 +77,7 @@ The first proxy that was ever proposed  came from Nick Johnson(not sure). He's f
         }
 ```
 
-Note: we are not running the code of target contract on the contract that calls the target which is Dispatcher.
+Note: (For delegate call understanding)Instead of running the code of the target contract(Examplr) on the target contracts address, we're running the code of the target contract on the contract that called the target(Which is Dispatcher).
 
 Steps: 
 1. Deploy Example- Target address or logic contract
@@ -88,7 +88,7 @@ Steps:
 # How to use it in upgradablity?
 
 1. upgrade smart contract(For instance:return _value*2)
-2. Again Deploy the Example with Dispatcher address
+2. Again Deploy the Example contract
 3. Replace new example address in dispatcherusing the replace function
 4. Now our smart contract is upgraded on the same address(it means it return value multiplied by 2)
 
